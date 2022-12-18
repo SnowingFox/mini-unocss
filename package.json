@@ -1,31 +1,20 @@
 {
-  "name": "mini-unocss",
-  "version": "0.0.1",
+  "name": "mini-unocss-monorepo",
+  "version": "0.0.0",
   "description": "",
   "scripts": {
+    "dev": "pnpm -r dev",
+    "build": "pnpm -r build",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "test:update": "vitest -u",
-    "build": "pnpm -r build"
+    "release": "bumpp package.json packages/**/package.json"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@antfu/eslint-config": "^0.26.1",
-    "@antfu/ni": "^0.17.2",
-    "@iconify-json/carbon": "^1.1.7",
-    "@iconify-json/iconoir": "^1.1.8",
-    "@iconify-json/la": "^1.1.2",
-    "@iconify-json/logos": "^1.1.14",
-    "@iconify-json/mdi": "^1.1.30",
-    "@iconify-json/ph": "^1.1.2",
-    "@iconify-json/ri": "^1.1.3",
-    "@iconify-json/tabler": "^1.1.26",
-    "@iconify-json/teenyicons": "^1.1.3",
-    "@iconify-json/twemoji": "^1.1.5",
-    "@iconify-json/uim": "^1.1.2",
-    "@types/codemirror": "^5.60.5",
+    "@antfu/eslint-config": "^0.34.0",
     "@types/connect": "^3.4.35",
     "@types/css-tree": "^1.0.7",
     "@types/fs-extra": "^9.0.13",
@@ -53,19 +42,13 @@
     "lz-string": "^1.4.4",
     "magic-string": "^0.26.2",
     "msw": "^0.45.0",
-    "nuxt": "3.0.0-rc.8",
-    "nuxt-tsconfig-stub": "^0.0.2",
-    "pnpm": "7.9.3",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
-    "rollup": "^2.78.1",
     "semver": "^7.3.7",
     "simple-git-hooks": "^2.8.0",
     "splitpanes": "^3.1.1",
-    "terser": "^5.14.2",
-    "tsup": "^6.2.2",
+    "tsup": "^6.2.3",
     "typescript": "^4.7.4",
-    "unbuild": "^0.8.9",
     "unplugin-auto-import": "^0.11.2",
     "unplugin-vue-components": "^0.22.4",
     "vite": "3.0.9",
@@ -74,5 +57,13 @@
     "vitest": "^0.22.1",
     "vue": "^3.2.37",
     "vue-router": "^4.1.3"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,vue,md}": [
+      "eslint --cache --fix"
+    ]
   }
 }

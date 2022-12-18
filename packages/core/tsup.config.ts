@@ -1,17 +1,11 @@
-import { defineBuildConfig } from 'unbuild'
+import { defineConfig } from 'tsup'
 
-export default defineBuildConfig({
-  entries: [
-    'src/index',
-  ],
-  clean: true,
-  declaration: true,
-  externals: [
-    'unconfig',
-    'magic-string',
-  ],
-  rollup: {
-    emitCJS: true,
-    inlineDependencies: true,
+export default defineConfig({
+  entry: {
+    index: 'src/index.ts',
   },
+  format: ['esm', 'cjs'],
+  target: 'es2020',
+  sourcemap: true,
+  splitting: false,
 })

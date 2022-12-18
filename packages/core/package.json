@@ -1,27 +1,10 @@
 {
   "name": "@mini-unocss/core",
-  "version": "0.0.1",
-  "description": "The instant on-demand Atomic CSS engine.",
-  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "version": "0.0.0",
+  "description": "The minimally instant on-demand Atomic CSS engine.",
+  "author": "snowingfox",
   "license": "MIT",
-  "funding": "https://github.com/sponsors/antfu",
-  "homepage": "https://github.com/unocss/unocss/tree/main/packages/core#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/unocss/unocss.git",
-    "directory": "packages/core"
-  },
-  "bugs": {
-    "url": "https://github.com/unocss/unocss/issues"
-  },
-  "keywords": [
-    "unocss",
-    "atomic-css",
-    "atomic-css-engine",
-    "css",
-    "tailwind",
-    "windicss"
-  ],
+  "homepage": "https://github.com/snowingfox/mini-unocss/tree/main/packages/core#readme",
   "sideEffects": false,
   "exports": {
     ".": {
@@ -37,11 +20,10 @@
     "dist"
   ],
   "scripts": {
-    "build": "unbuild",
-    "stub": "unbuild --stub"
+    "dev": "tsup --watch src",
+    "build": "tsup"
   },
   "devDependencies": {
-    "magic-string": "^0.26.2",
-    "unconfig": "^0.3.4"
+    "magic-string": "^0.26.2"
   }
 }
