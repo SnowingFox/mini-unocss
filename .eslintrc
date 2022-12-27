@@ -3,7 +3,8 @@
   "overrides": [{
     "files": ["*"],
     "rules": {
-      "curly": "off"
+      "curly": "off",
+      "no-useless-return": "off"
     }
   }]
 }
