@@ -7,12 +7,18 @@ test('test', async () => {
       ['a', { color: 'red' }],
       ['b', { color: 'blue' }],
     ],
+    shortcuts: [
+      ['c', 'a b'],
+      ['d', 'c'],
+    ],
   })
 
-  const { css } = await uno.generate('a b')
+  const payload = await uno.expandShortcuts('d', {} as any)
 
-  expect(css).toMatchInlineSnapshot(`
-    ".a{ color:red; }
-    .b{ color:blue; }"
+  expect(payload).toMatchInlineSnapshot(`
+    [
+      "a",
+      "b",
+    ]
   `)
 })

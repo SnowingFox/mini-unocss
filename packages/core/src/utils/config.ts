@@ -1,12 +1,13 @@
 import { extractorSplit } from '../extractors'
-import type { UserConfig } from '../types'
+import type { UserConfig } from '../types/index'
 
-export function resolveConfig(userConfig: UserConfig): UserConfig {
-  const config = userConfig
-
-  if (!config.extractors?.length) {
-    config.extractors = [extractorSplit]
+export function resolveConfig<T extends {} = {}>(userConfig: UserConfig<T>): UserConfig<T> {
+  return {
+    blocked: [],
+    extractors: [extractorSplit],
+    preprocess: [],
+    shortcuts: [],
+    variants: [],
+    ...userConfig,
   }
-
-  return config
 }
