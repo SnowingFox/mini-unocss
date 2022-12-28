@@ -4,4 +4,12 @@ export interface IParseUtilsResult {
   body: string
 
   selector: string
+
+  layer: string
+}
+
+export interface SheetUtils {
+  body: string | string[]
+
+  layer: string
 }

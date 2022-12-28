@@ -8,8 +8,7 @@ test('test', async () => {
       ['b', { color: 'blue' }],
     ],
     shortcuts: [
-      ['c', 'a b'],
-      ['d', 'c'],
+      ['ab', 'a b', { layer: 'a' }],
     ],
   })
 

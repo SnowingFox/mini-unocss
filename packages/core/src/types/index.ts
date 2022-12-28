@@ -1,5 +1,5 @@
 import type { Rule } from './rule'
-import type { Shortcut } from './shortcuts'
+import type { UserShortcuts } from './shortcuts'
 import type { Awaitable } from './utils'
 import type { Variant } from './variants'
 
@@ -43,7 +43,7 @@ export interface UserConfig<Theme extends {} = {}> extends BaseConfig<Theme>, Ge
 
   theme?: any
 
-  shortcuts?: Shortcut<Theme>[]
+  shortcuts?: UserShortcuts<Theme>[]
 }
 
 export interface ExtractorContext {

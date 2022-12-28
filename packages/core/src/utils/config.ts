@@ -8,6 +8,7 @@ export function resolveConfig<T extends {} = {}>(userConfig: UserConfig<T>): Use
     preprocess: [],
     shortcuts: [],
     variants: [],
+    safelist: [],
     ...userConfig,
   }
 }
