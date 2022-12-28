@@ -1,11 +1,13 @@
-import type { ExtractorContext, GenerateOptions, UserConfig } from '../types/index'
-import type { RuleContext } from '../types/rule'
+import type { ExtractorContext, GenerateOptions, UserConfig } from '../types'
+import type { IParseUtilsResult } from '../types/generator'
+import type { DynamicMatcher, Rule, RuleContext } from '../types/rule'
+import type { CSSObject } from '../types/utils'
 import type { Variant, VariantContext, VariantMatchedResult } from '../types/variants'
 import { isFunction, isRegExp, isString } from '../utils'
 import { resolveConfig } from '../utils/config'
 
 export class UnoGenerator<Theme extends {} = {}> {
-  private _cache = new WeakMap<string, any>()
+  private _cache = new Map<string, any>()
   public config: UserConfig<Theme>
 
   public blocked = new Set<string>()
@@ -21,7 +23,7 @@ export class UnoGenerator<Theme extends {} = {}> {
   ) {
     const tokens = await this.applyExtractors(input, options?.id)
 
-    const layerSet = new Set<string>()
+    const layerSet = new Set<string>(['default'])
     const matched = new Set<string>()
     const sheet = new Map<string, string[]>()
 
@@ -30,11 +32,19 @@ export class UnoGenerator<Theme extends {} = {}> {
         return
       }
 
+      matched.add(raw)
+
       const payload = await this.parseToken(raw)
 
       if (!payload) {
         return
       }
+
+      if (!sheet.get(payload.currentSelector)) {
+        sheet.set(payload.currentSelector, [])
+      }
+
+      sheet.get(payload.currentSelector)!.push(payload.body)
     })
 
     await Promise.all(tokenPromises)
@@ -42,13 +52,17 @@ export class UnoGenerator<Theme extends {} = {}> {
     const layers = Array.from(layerSet)
 
     const getLayer = (layer: string) => {
-      Array.from(sheet).map((item) => {
-
-      })
+      return Array.from(sheet).map(([selector, body]) => {
+        const css = `${selector}{${body.join('')}}`
+        return css
+      }).join('\n')
     }
 
     const getLayers = (includes = layers, excludes?: string[]) => {
-
+      return includes
+        .filter(i => !excludes?.includes(i))
+        .map(i => getLayer(i))
+        .join('\n')
     }
 
     return {
@@ -56,7 +70,7 @@ export class UnoGenerator<Theme extends {} = {}> {
     }
   }
 
-  async parseToken(raw: string) {
+  async parseToken(raw: string): Promise<IParseUtilsResult | undefined> {
     if (this.blocked.has(raw)) {
       return
     }
@@ -87,11 +101,12 @@ export class UnoGenerator<Theme extends {} = {}> {
 
     const context: RuleContext<Theme> = {
       rawSelector: raw,
-    }
+      currentSelector: variantsApplied.selector,
+    } as RuleContext<Theme>
 
-    const shortcuts = this.expandShortcuts(raw, context)
+    // const shortcuts = this.expandShortcuts(raw, context)
 
-    const parsed = shortcuts
+    return this.parseUtil(raw, context) as IParseUtilsResult
   }
 
   matchVariants(raw: string): VariantMatchedResult<Theme> {
@@ -104,8 +119,10 @@ export class UnoGenerator<Theme extends {} = {}> {
     }
 
     let processed = raw
+    let selector = raw
+    let rule
 
-    this.config.variants!.forEach((v) => {
+    this.config.variants!.forEach(async (v) => {
       if (variants.has(v)) {
         return
       }
@@ -117,14 +134,47 @@ export class UnoGenerator<Theme extends {} = {}> {
       }
 
       processed = isString(result) ? result : result.matcher
+      rule = await this.getCSSRuleByRaw(raw)! as Rule
+      selector = isString(result) ? raw : result.selector?.(raw, rule) as string
       variants.add(v as Variant<Theme>)
     })
 
-    return { raw, processed, variants }
+    return { raw, processed, variants, selector }
   }
 
-  async stringifyTokens(token: string, context: Readonly<RuleContext<Theme>>) {
+  getCSSRuleByRaw(raw: string) {
+    for (const r of this.config.rules!) {
+      const rule = r[0]
+      if (isRegExp(rule)) {
+        const exec = rule.exec(raw)
+        // TODO solve type problem
+        if (exec) {
+          return (r[1] as DynamicMatcher<Theme>)(exec as RegExpExecArray, {} as any)
+        }
+      }
+      else if (raw === rule) {
+        return r[1] as CSSObject
+      }
+    }
+  }
 
+  parseUtil(
+    raw: string,
+    context: Readonly<RuleContext<Theme>>,
+  ): IParseUtilsResult | null {
+    const { currentSelector } = context
+
+    const body = this.getCSSRuleByRaw(raw) as CSSObject
+
+    if (!body) {
+      return null
+    }
+
+    return {
+      selector: currentSelector,
+      currentSelector: (currentSelector.startsWith('[') || currentSelector.startsWith('.')) ? currentSelector : `.${currentSelector}`,
+      body: Object.entries(body).map(([key, val]) => `${key}:${val};`).join(''),
+    }
   }
 
   async stringifyShortcuts() {}

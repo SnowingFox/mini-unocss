@@ -1,10 +1,12 @@
 import type { UnoGenerator } from '@unocss/core'
+import type { Rule } from './rule'
 import type { CSSEntries } from './utils'
 
 export interface VariantMatchedResult<Theme extends {} = {}> {
   raw: string
   processed: string
   variants: Set<Variant<Theme>>
+  selector: string
 }
 
 export interface VariantHandlerContext {
@@ -78,7 +80,7 @@ export interface VariantHandler {
   /**
    * Rewrite the output selector. Often be used to append pseudo classes or parents.
    */
-  selector?: (input: string, body: CSSEntries) => string | undefined
+  selector?: (input: string, body: Rule) => string | undefined
   /**
    * Rewrite the output css body. The input come in [key,value][] pairs.
    */
