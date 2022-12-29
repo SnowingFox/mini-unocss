@@ -14,8 +14,8 @@ import { generateSelector, isRuleEqual } from '../utils/utils'
 export class UnoGenerator<Theme extends {} = {}> {
   private _cache = new Map<string, any>()
   public config: UserConfig<Theme>
-
   public blocked = new Set<string>()
+
   constructor(public userConfig: UserConfig<Theme>) {
     this.config = resolveConfig(userConfig)
   }
