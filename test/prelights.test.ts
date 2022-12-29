@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 import { createGenerator } from '../packages/core/src/utils'
 
-test('layer', async () => {
+test('preflights', async () => {
   const uno = createGenerator({
     rules: [
       ['text-red', { color: 'red' }],

@@ -132,7 +132,7 @@ export class UnoGenerator<Theme extends {} = {}> {
       return
     }
 
-    const { processed, selector } = this.matchVariants(raw, token)
+    const { processed, selector } = await this.matchVariants(raw, token)
 
     if (this.isBlocked(processed!)) {
       this.blocked.add(raw)
@@ -154,7 +154,7 @@ export class UnoGenerator<Theme extends {} = {}> {
     return util as IParseUtilsResult
   }
 
-  matchVariants(raw: string, token: string): VariantMatchedResult<Theme> {
+  async matchVariants(raw: string, token: string): Promise<VariantMatchedResult<Theme>> {
     const variants = new Set<Variant<Theme>>()
 
     const context: VariantContext<Theme> = {
@@ -167,15 +167,15 @@ export class UnoGenerator<Theme extends {} = {}> {
     let selector = raw
     let rule
 
-    this.config.variants!.forEach(async (v) => {
+    for (const v of this.config.variants!) {
       if (variants.has(v)) {
-        return
+        continue
       }
       const handler = isFunction(v) ? v : v.match
       const result = handler(token, context)
 
-      if (!result) {
-        return
+      if (!result || result === token) {
+        continue
       }
 
       // TODO solve type problem
@@ -184,8 +184,9 @@ export class UnoGenerator<Theme extends {} = {}> {
       selector = isString(result)
         ? raw
         : (result.selector?.(raw, rule as Rule) as string)
+
       variants.add(v as Variant<Theme>)
-    })
+    }
 
     return { raw, processed, variants, selector }
   }
