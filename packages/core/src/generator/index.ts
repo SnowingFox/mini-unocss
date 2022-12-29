@@ -20,7 +20,7 @@ export class UnoGenerator<Theme extends {} = {}> {
     this.config = resolveConfig(userConfig)
   }
 
-  async generate(input: string, options?: GenerateOptions<Theme>) {
+  async generate(input: string, options?: GenerateOptions) {
     const tokens = await this.applyExtractors(input, options?.id)
 
     const layerSet = new Set<string>([DEFAULT_LAYER])
@@ -132,9 +132,9 @@ export class UnoGenerator<Theme extends {} = {}> {
       return
     }
 
-    const variantsApplied = this.matchVariants(raw)
+    const { processed, selector } = this.matchVariants(raw, token)
 
-    if (this.isBlocked(variantsApplied.processed!)) {
+    if (this.isBlocked(processed!)) {
       this.blocked.add(raw)
       this._cache.set(raw, null)
       return
@@ -142,19 +142,19 @@ export class UnoGenerator<Theme extends {} = {}> {
 
     const context: RuleContext<Theme> = {
       rawSelector: raw,
-      currentSelector: variantsApplied.selector,
+      currentSelector: selector,
     } as RuleContext<Theme>
 
     const shortcuts = await this.expandShortcuts(raw, context)
 
     const util = shortcuts
-      ? this.parseShortcutsUtil(raw, shortcuts, context)
-      : this.parseUtil(raw, context)
+      ? this.parseShortcutsUtil(processed, shortcuts, context)
+      : this.parseUtil(processed, context)
 
     return util as IParseUtilsResult
   }
 
-  matchVariants(raw: string): VariantMatchedResult<Theme> {
+  matchVariants(raw: string, token: string): VariantMatchedResult<Theme> {
     const variants = new Set<Variant<Theme>>()
 
     const context: VariantContext<Theme> = {
@@ -163,7 +163,7 @@ export class UnoGenerator<Theme extends {} = {}> {
       generator: this,
     }
 
-    let processed = raw
+    let processed = token
     let selector = raw
     let rule
 
@@ -172,7 +172,7 @@ export class UnoGenerator<Theme extends {} = {}> {
         return
       }
       const handler = isFunction(v) ? v : v.match
-      const result = handler(raw, context)
+      const result = handler(token, context)
 
       if (!result) {
         return
