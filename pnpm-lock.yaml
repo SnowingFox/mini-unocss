@@ -92,6 +92,12 @@ importers:
       vue: 3.2.37
       vue-router: 4.1.5_vue@3.2.37
 
+  packages/core:
+    specifiers:
+      magic-string: ^0.26.2
+    devDependencies:
+      magic-string: 0.26.2
+
 packages:
 
   /@antfu/eslint-config-basic/0.34.0_txmweb6yn7coi7nfrp22gpyqmy:

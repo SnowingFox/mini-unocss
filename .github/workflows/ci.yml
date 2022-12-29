@@ -42,7 +42,7 @@ jobs:
         run: npm i -g @antfu/ni
 
       - name: Install
-        run: pnpm i
+        run: nci
 
       - name: Build
         run: nr build
