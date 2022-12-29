@@ -19,7 +19,7 @@ export interface BaseConfig<Theme extends {} = {}> {
   extractors?: Extractor[]
 }
 
-export interface UserConfig<Theme extends {} = {}> extends BaseConfig<Theme>, GenerateOptions<Theme> {
+export interface UserConfig<Theme extends {} = {}> extends BaseConfig<Theme>, GenerateOptions {
 
   preflights?: Preflights<Theme>[]
   /*
