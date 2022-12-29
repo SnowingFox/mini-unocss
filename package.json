@@ -10,6 +10,7 @@
     "test:update": "vitest -u",
     "release": "bumpp package.json packages/**/package.json"
   },
+  "packageManager": "pnpm@7.14.2",
   "keywords": [],
   "author": "",
   "license": "MIT",
