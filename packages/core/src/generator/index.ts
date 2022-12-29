@@ -9,7 +9,7 @@ import type {
   VariantContext,
   VariantMatchedResult,
 } from '../types/variants'
-import { generateSelector } from '../utils/utils'
+import { generateSelector, isRuleEqual } from '../utils/utils'
 
 // TODO resolve shortcuts
 export class UnoGenerator<Theme extends {} = {}> {
@@ -41,6 +41,7 @@ export class UnoGenerator<Theme extends {} = {}> {
       }
 
       matched.add(raw)
+      layerSet.add(payload.layer)
 
       if (!sheet.get(payload.currentSelector)) {
         sheet.set(payload.currentSelector, { layer: payload.layer, body: [] })
@@ -51,10 +52,10 @@ export class UnoGenerator<Theme extends {} = {}> {
 
     await Promise.all(tokenPromises)
 
-    const layers = this.config
+    const layers = Array.from(new Set(this.config
       .rules!.map(r => r[2]?.layer)
       .filter(Boolean)
-      .concat(Array.from(layerSet)) as string[]
+      .concat(Array.from(layerSet)))) as string[]
 
     const layerCache: Record<string, string> = {}
 
@@ -81,6 +82,7 @@ export class UnoGenerator<Theme extends {} = {}> {
         .filter(i => !excludes?.includes(i))
         .map(i => getLayer(i) || '')
         .join('\n')
+        .trim()
     }
 
     return {
@@ -179,7 +181,7 @@ export class UnoGenerator<Theme extends {} = {}> {
   }
 
   getShortcut(shortcut: string) {
-    return this.config.shortcuts
+    return this.config.shortcuts!.find(s => isRuleEqual(s[0], shortcut))
   }
 
   parseShortcutsUtil(
@@ -195,7 +197,7 @@ export class UnoGenerator<Theme extends {} = {}> {
 
     return {
       selector: context.currentSelector,
-      layer: DEFAULT_LAYER,
+      layer: this.getShortcut(raw)?.[2]?.layer || DEFAULT_LAYER,
       currentSelector: generateSelector(context.currentSelector),
       body,
     }
@@ -276,12 +278,15 @@ export class UnoGenerator<Theme extends {} = {}> {
     for (const shortcut of this.config.shortcuts!) {
       const rule = shortcut[0]
       const matched = isRegExp(rule) ? rule.exec(raw) : raw === rule
+      if (!matched) {
+        continue
+      }
       const shortcuts = await (isFunction(shortcut[1])
         ? shortcut[1](matched as RegExpExecArray, context)
         : shortcut[1])
 
       if (isString(shortcuts)) {
-        return shortcuts
+        const promises = shortcuts
           .split(' ')
           .filter(s => s.length > 0)
           .map((s) => {
@@ -291,6 +296,8 @@ export class UnoGenerator<Theme extends {} = {}> {
 
             return s
           }) as string[]
+
+        return (await Promise.all(promises)).flat(Infinity)
       }
     }
   }
@@ -308,14 +315,10 @@ export class UnoGenerator<Theme extends {} = {}> {
     return false
   }
 
-  processShortcuts(shortcut: string) {}
-
   isBlocked(raw: string) {
     return (
       !raw
-      || this.config.blocked!.some(item =>
-        isRegExp(item) ? item.test(raw) : raw === item,
-      )
+      || this.config.blocked!.some(item => isRuleEqual(item, raw))
     )
   }
 }
