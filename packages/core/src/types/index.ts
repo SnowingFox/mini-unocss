@@ -1,3 +1,4 @@
+import type { Preflights } from './preflights'
 import type { Rule } from './rule'
 import type { UserShortcuts } from './shortcuts'
 import type { Awaitable } from './utils'
@@ -10,7 +11,6 @@ export interface GenerateOptions {
 
   safelist?: string[]
 
-  preflights?: boolean
 }
 
 export interface BaseConfig<Theme extends {} = {}> {
@@ -19,7 +19,9 @@ export interface BaseConfig<Theme extends {} = {}> {
   extractors?: Extractor[]
 }
 
-export interface UserConfig<Theme extends {} = {}> extends BaseConfig<Theme>, GenerateOptions {
+export interface UserConfig<Theme extends {} = {}> extends BaseConfig<Theme>, GenerateOptions<Theme> {
+
+  preflights?: Preflights<Theme>[]
   /*
   * blocked
   *

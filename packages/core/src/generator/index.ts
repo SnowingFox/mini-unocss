@@ -11,7 +11,6 @@ import type {
 } from '../types/variants'
 import { generateSelector, isRuleEqual } from '../utils/utils'
 
-// TODO resolve shortcuts
 export class UnoGenerator<Theme extends {} = {}> {
   private _cache = new Map<string, any>()
   public config: UserConfig<Theme>
@@ -21,10 +20,11 @@ export class UnoGenerator<Theme extends {} = {}> {
     this.config = resolveConfig(userConfig)
   }
 
-  async generate(input: string, options?: GenerateOptions) {
+  async generate(input: string, options?: GenerateOptions<Theme>) {
     const tokens = await this.applyExtractors(input, options?.id)
 
     const layerSet = new Set<string>([DEFAULT_LAYER])
+    const layerPreflights = new Map<string, string[]>()
     const matched = new Set<string>()
     const sheet = new Map<string, SheetUtils>()
 
@@ -52,6 +52,22 @@ export class UnoGenerator<Theme extends {} = {}> {
 
     await Promise.all(tokenPromises)
 
+    if (this.config.preflights) {
+      for (const p of this.config.preflights) {
+        const injectedCSS = await p.getCSS({
+          generator: this,
+          theme: this.config.theme,
+        })
+        const layer = p.layer || DEFAULT_LAYER
+
+        if (!layerPreflights.get(layer)) {
+          layerPreflights.set(layer, [])
+        }
+
+        layerPreflights.get(layer)!.push(injectedCSS)
+      }
+    }
+
     const layers = Array.from(new Set(this.config
       .rules!.map(r => r[2]?.layer)
       .filter(Boolean)
@@ -71,6 +87,7 @@ export class UnoGenerator<Theme extends {} = {}> {
         .map(([selector, { body }]) => {
           return `${selector}{${isString(body) ? body : body.join('')}}`
         })
+        .concat(layerPreflights.get(layer) ?? [])
         .join('\n')
 
       const layerMark = css ? `/** layer ${layer} **/\n${css}` : ''
@@ -162,7 +179,6 @@ export class UnoGenerator<Theme extends {} = {}> {
       }
 
       // TODO solve type problem
-
       processed = isString(result) ? result : result.matcher
       rule = await this.getRule(raw)
       selector = isString(result)
@@ -189,7 +205,6 @@ export class UnoGenerator<Theme extends {} = {}> {
     shortcuts: string[],
     context: Readonly<RuleContext<Theme>>,
   ): IParseUtilsResult | null {
-    // TODO solve shortcuts layer
     const body = shortcuts
       .map(s => this.parseUtil(s, context)?.body)
       .filter(Boolean)
