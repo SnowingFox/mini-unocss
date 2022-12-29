@@ -9,6 +9,7 @@ export function resolveConfig<T extends {} = {}>(userConfig: UserConfig<T>): Use
     shortcuts: [],
     variants: [],
     safelist: [],
+    theme: {} as T,
     ...userConfig,
   }
 }

@@ -13,6 +13,6 @@ export const isFunction = (val: unknown): val is Function => val instanceof Func
 
 export const isString = (val: unknown): val is string => typeof val === 'string'
 
-export const createGenerator = (options: UserConfig) => {
+export const createGenerator = <Theme extends {} = {}>(options: UserConfig<Theme>) => {
   return new UnoGenerator(options)
 }

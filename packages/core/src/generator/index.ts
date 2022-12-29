@@ -56,7 +56,7 @@ export class UnoGenerator<Theme extends {} = {}> {
       for (const p of this.config.preflights) {
         const injectedCSS = await p.getCSS({
           generator: this,
-          theme: this.config.theme,
+          theme: this.config.theme!,
         })
         const layer = p.layer || DEFAULT_LAYER
 
@@ -85,7 +85,7 @@ export class UnoGenerator<Theme extends {} = {}> {
           ([, { layer: cssLayer }]) => cssLayer === (layer || DEFAULT_LAYER),
         )
         .map(([selector, { body }]) => {
-          return `${selector}{${isString(body) ? body : body.join('')}}`
+          return `${selector.replaceAll(':', '\\:')}{${isString(body) ? body : body.join('')}}`
         })
         .concat(layerPreflights.get(layer) ?? [])
         .join('\n')
@@ -143,6 +143,7 @@ export class UnoGenerator<Theme extends {} = {}> {
     const context: RuleContext<Theme> = {
       rawSelector: raw,
       currentSelector: selector,
+      ...this.config,
     } as RuleContext<Theme>
 
     const shortcuts = await this.expandShortcuts(raw, context)
@@ -159,7 +160,7 @@ export class UnoGenerator<Theme extends {} = {}> {
 
     const context: VariantContext<Theme> = {
       rawSelector: raw,
-      theme: this.config.theme,
+      theme: this.config.theme!,
       generator: this,
     }
 

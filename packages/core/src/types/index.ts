@@ -43,7 +43,7 @@ export interface UserConfig<Theme extends {} = {}> extends BaseConfig<Theme>, Ge
   */
   variants?: Variant<Theme>[]
 
-  theme?: any
+  theme?: Theme
 
   shortcuts?: UserShortcuts<Theme>[]
 }
