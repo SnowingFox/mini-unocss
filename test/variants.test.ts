@@ -32,7 +32,7 @@ test('variants', async () => {
   expect(css).toMatchInlineSnapshot(`
     "/** layer default **/
     .m-2{m:2;}
-    .prefix-hover:m-2:hover{m:2;}
-    .hover:m-2:hover{m:2;}"
+    .prefix-hover\\\\:m-2\\\\:hover{m:2;}
+    .hover\\\\:m-2\\\\:hover{m:2;}"
   `)
 })
