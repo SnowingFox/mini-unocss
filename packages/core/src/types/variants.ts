@@ -1,4 +1,4 @@
-import type { UnoGenerator } from '@unocss/core'
+import type { UnoGenerator } from '../generator/index'
 import type { Rule } from './rule'
 import type { CSSEntries } from './utils'
 

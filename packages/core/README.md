@@ -1,1 +1,1 @@
-# @unocss/core
+# @mini-unocss/core

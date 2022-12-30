@@ -1,7 +1,7 @@
-import type { UnoGenerator } from '@unocss/core'
+import type { UnoGenerator } from '../generator/index'
 import type { Shortcut } from './shortcuts'
 import type { Awaitable, CSSEntries, CSSObject, CSSValue } from './utils'
-import type { Variant, VariantHandler } from './variants'
+import type { Variant } from './variants'
 
 export interface RuleMeta {
   /**
@@ -56,19 +56,7 @@ export interface RuleContext<Theme extends {} = {}> {
    * The theme object
    */
   theme: Theme
-  /**
-   * Matched variants handlers for this rule.
-   */
-  variantHandlers: VariantHandler[]
-  /**
-   * The result of variant matching.
-   */
-  variantMatch: any
-  /**
-   * Construct a custom CSS rule.
-   * Variants and selector escaping will be handled automatically.
-   */
-  constructCSS: (body: CSSEntries | CSSObject, overrideSelector?: string) => string
+
   /**
    * Available only when `details` option is enabled.
    */

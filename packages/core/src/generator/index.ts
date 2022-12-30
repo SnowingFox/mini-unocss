@@ -140,9 +140,12 @@ export class UnoGenerator<Theme extends {} = {}> {
       return
     }
 
-    const context: RuleContext<Theme> = {
+    const context = {
       rawSelector: raw,
       currentSelector: selector,
+      shortcuts: this.config.shortcuts,
+      theme: this.config.theme!,
+      generator: this,
       ...this.config,
     } as RuleContext<Theme>
 

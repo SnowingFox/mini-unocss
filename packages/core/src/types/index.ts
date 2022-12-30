@@ -1,4 +1,5 @@
 import type { Preflights } from './preflights'
+import type { Presets } from './presets'
 import type { Rule } from './rule'
 import type { UserShortcuts } from './shortcuts'
 import type { Awaitable } from './utils'
@@ -17,9 +18,6 @@ export interface BaseConfig<Theme extends {} = {}> {
   rules?: Rule<Theme>[]
 
   extractors?: Extractor[]
-}
-
-export interface UserConfig<Theme extends {} = {}> extends BaseConfig<Theme>, GenerateOptions {
 
   preflights?: Preflights<Theme>[]
   /*
@@ -46,6 +44,14 @@ export interface UserConfig<Theme extends {} = {}> extends BaseConfig<Theme>, Ge
   theme?: Theme
 
   shortcuts?: UserShortcuts<Theme>[]
+}
+
+interface PresetsConfig<Theme extends {} = {}> {
+  presets: Presets<Theme>[]
+}
+
+export interface UserConfig<Theme extends {} = {}> extends BaseConfig<Theme>, PresetsConfig<Theme>, GenerateOptions {
+
 }
 
 export interface ExtractorContext {
