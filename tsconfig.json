@@ -16,7 +16,8 @@
       "vite/client"
     ],
     "paths": {
-      "@unocss/core": ["./packages/core/src/index.ts"],
+      "@mini-unocss/core": ["./packages/core/src/index.ts"],
+      "@mini-unocss/preset-uno": ["./packages/preset-uno/src/index.ts"]
     }
   },
   "exclude": [

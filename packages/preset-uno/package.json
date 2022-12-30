@@ -1,5 +1,5 @@
 {
-  "name": "@unocss/preset-uno",
+  "name": "@mini-unocss/preset-uno",
   "version": "0.48.0",
   "description": "The default preset for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
@@ -37,6 +37,6 @@
     "build": "tsup"
   },
   "dependencies": {
-    "@unocss/core": "workspace:*"
+    "@mini-unocss/core": "workspace:*"
   }
 }

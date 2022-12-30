@@ -47,7 +47,7 @@ export interface BaseConfig<Theme extends {} = {}> {
 }
 
 interface PresetsConfig<Theme extends {} = {}> {
-  presets: Presets<Theme>[]
+  presets?: Presets<Theme>[]
 }
 
 export interface UserConfig<Theme extends {} = {}> extends BaseConfig<Theme>, PresetsConfig<Theme>, GenerateOptions {
@@ -65,3 +65,11 @@ export interface Extractor {
   extract(ctx: ExtractorContext): Awaitable<Set<string> | string[] | undefined>
   order?: number
 }
+
+export * from './generator'
+export * from './presets'
+export * from './preflights'
+export * from './rule'
+export * from './utils'
+export * from './shortcuts'
+export * from './variants'

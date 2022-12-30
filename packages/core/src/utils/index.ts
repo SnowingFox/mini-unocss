@@ -1,4 +1,4 @@
-import { UnoGenerator } from '@unocss/core'
+import { UnoGenerator } from '../generator'
 import type { UserConfig } from '../types/index'
 
 export const validateFilterRE = /[\w\u00A0-\uFFFF-_:%-?]/
