@@ -1,6 +1,6 @@
 {
   "name": "mini-unocss-monorepo",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "description": "",
   "scripts": {
     "dev": "pnpm -r dev",
@@ -8,7 +8,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "test:update": "vitest -u",
-    "release": "bumpp package.json packages/**/package.json"
+    "release": "bumpp packages/**/package.json"
   },
   "packageManager": "pnpm@7.14.2",
   "keywords": [],
