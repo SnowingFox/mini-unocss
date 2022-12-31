@@ -37,6 +37,7 @@
     "build": "tsup"
   },
   "dependencies": {
-    "@mini-unocss/core": "workspace:*"
+    "@mini-unocss/core": "workspace:*",
+    "@mini-unocss/vite": "workspace:*"
   }
 }

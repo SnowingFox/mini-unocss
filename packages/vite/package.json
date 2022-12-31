@@ -1,5 +1,5 @@
 {
-  "name": "mini-unocss",
+  "name": "@mini-unocss/vite",
   "version": "0.0.2",
   "description": "The default preset for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",

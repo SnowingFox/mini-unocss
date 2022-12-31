@@ -4,7 +4,7 @@
   "description": "The minimally instant on-demand Atomic CSS engine.",
   "author": "snowingfox",
   "license": "MIT",
-  "homepage": "https://github.com/snowingfox/mini-unocss/tree/main/packages/core#readme",
+  "homepage": "https://github.com/snowingfox/mini-unocss/tree/master/packages/core#readme",
   "sideEffects": false,
   "exports": {
     ".": {

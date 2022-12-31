@@ -5,6 +5,5 @@ export default defineConfig({
   ...build,
   entry: [
     'src/index.ts',
-    'src/vite.ts',
   ],
 })

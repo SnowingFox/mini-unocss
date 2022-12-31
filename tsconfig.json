@@ -17,7 +17,10 @@
     ],
     "paths": {
       "@mini-unocss/core": ["./packages/core/src/index.ts"],
-      "@mini-unocss/preset-uno": ["./packages/preset-uno/src/index.ts"]
+      "@mini-unocss/config": ["./packages/core/src/config.ts"],
+      "@mini-unocss/preset-uno": ["./packages/preset-uno/src/index.ts"],
+      "@mini-unocss/vite": ["./packages/vite/src/index.ts"],
+      "mini-unocss": ["./packages/mini-unocss/src/index.ts"]
     }
   },
   "exclude": [
