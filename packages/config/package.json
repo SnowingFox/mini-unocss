@@ -1,6 +1,6 @@
 {
   "name": "@mini-unocss/config",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The minimally instant on-demand Atomic CSS engine.",
   "author": "snowingfox",
   "license": "MIT",
