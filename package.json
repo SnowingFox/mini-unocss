@@ -32,6 +32,8 @@
     "@mini-unocss/core": "workspace:*",
     "@mini-unocss/preset-uno": "workspace:*",
     "@mini-unocss/config": "workspace:*",
+    "@mini-unocss/cli": "workspace:*",
+    "@mini-unocss/vite": "workspace:*",
     "brotli-size": "^4.0.0",
     "bumpp": "^8.2.1",
     "codemirror": "^5.65.6",

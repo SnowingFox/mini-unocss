@@ -1,0 +1,15 @@
+{
+  "name": "test",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "config": "esno ../../packages/cli/src/cli.ts"
+  },
+  "devDependencies": {
+    "vite": "^4.0.0"
+  }
+}

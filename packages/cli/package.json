@@ -1,5 +1,5 @@
 {
-  "name": "@mini-unocss/config",
+  "name": "@mini-unocss/cli",
   "version": "0.0.2",
   "description": "The minimally instant on-demand Atomic CSS engine.",
   "author": "snowingfox",
@@ -9,12 +9,12 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
     }
   },
-  "main": "dist/index.mjs",
-  "module": "dist/index.mjs",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
@@ -24,7 +24,15 @@
     "build": "tsup"
   },
   "dependencies": {
+    "@mini-unocss/config": "workspace:*",
     "@mini-unocss/core": "workspace:*",
-    "unconfig": "^0.3.7"
+    "cac": "^6.7.14",
+    "chokidar": "^3.5.3",
+    "colorette": "^2.0.19",
+    "consola": "^2.15.3",
+    "fast-glob": "^3.2.11",
+    "fs-extra": "^10.1.0",
+    "magic-string": "^0.26.2",
+    "perfect-debounce": "^0.1.3"
   }
 }
