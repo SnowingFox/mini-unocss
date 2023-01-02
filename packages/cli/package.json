@@ -6,15 +6,18 @@
   "license": "MIT",
   "homepage": "https://github.com/snowingfox/mini-unocss/tree/master/packages/config#readme",
   "sideEffects": false,
+  "bin": {
+    "mini-unocss": "./bin/unocss.mjs"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.js"
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist"

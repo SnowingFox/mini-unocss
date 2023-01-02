@@ -6,6 +6,7 @@ export default defineConfig({
   dts: true,
   entry: [
     'src/cli.ts',
+    'src/cli-start.ts',
     'src/index.ts',
   ],
 })
