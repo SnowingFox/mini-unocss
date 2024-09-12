@@ -1,0 +1,30 @@
+{
+  "name": "@mini-unocss/config",
+  "version": "0.0.3",
+  "description": "The minimally instant on-demand Atomic CSS engine.",
+  "author": "snowingfox",
+  "license": "MIT",
+  "homepage": "https://github.com/snowingfox/mini-unocss/tree/master/packages/config#readme",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "tsup --watch src",
+    "build": "tsup"
+  },
+  "dependencies": {
+    "@mini-unocss/core": "workspace:*",
+    "unconfig": "^0.3.7"
+  }
+}

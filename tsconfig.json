@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "esnext",
+    "lib": ["esnext"],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "jsx": "preserve",
+    "types": [
+      "node",
+      "vite/client"
+    ],
+    "paths": {
+      "@mini-unocss/core": ["./packages/core/src/index.ts"],
+      "@mini-unocss/config": ["./packages/core/src/config.ts"],
+      "@mini-unocss/preset-uno": ["./packages/preset-uno/src/index.ts"],
+      "@mini-unocss/vite": ["./packages/vite/src/index.ts"],
+      "@mini-unocss/cli": ["./packages/vite/src/cli.ts"],
+      "mini-unocss": ["./packages/mini-unocss/src/index.ts"]
+    }
+  },
+  "exclude": [
+    "**/dist/**",
+    "**/node_modules/**",
+    "**/client/**",
+    "**/playground/**",
+    "**/examples/**",
+    "**/interactive/**",
+    "**/test/dts/**"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "extends": ["@antfu"],
+  "overrides": [{
+    "files": ["*"],
+    "rules": {
+      "curly": "off",
+      "no-useless-return": "off",
+      "no-unreachable-loop": "off"
+    }
+  }]
+}
